@@ -6,7 +6,7 @@ let settings = {
   alarm: -1,
   dataRow1: "Steps",
   dataRow2: "HRM",
-  dataRow3: "YearPercentage",
+  dataRow3: "stardatefraction",
   speed: "kph",
   fullscreen: false,
   themeColor1BG: "#FF9900",
@@ -603,7 +603,7 @@ function getYearPercentageFraction() {
 function getStardateFraction() {
   currentDate = new Date();
   //var yearPercentage = Math.round(((new Date() - new Date('2022-01-01'))/1000/60/60)*100/8760);
-  var yearPercentage = (((new Date() - new Date('2022-01-01'))/1000/60/60)*100/8760).toFixed(2);
+  var yearPercentage = Math.round(((new Date() - new Date('2022-01-01'))/1000/60/60)*100/8760);
   var yearTrailingDigits = currentDate.getFullYear().toString().substr(2);
   return yearTrailingDigits + "." + yearPercentage; //"22.58";
 }
