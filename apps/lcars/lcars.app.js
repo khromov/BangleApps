@@ -6,7 +6,7 @@ let settings = {
   alarm: -1,
   dataRow1: "Steps",
   dataRow2: "HRM",
-  dataRow3: "Battery",
+  dataRow3: "YearPercentage",
   speed: "kph",
   fullscreen: false,
   themeColor1BG: "#FF9900",
@@ -225,6 +225,7 @@ function _drawData(key, y, c){
   var value = "ERR";
   var should_print= true;
 
+  // TODO: Unnecessary to do so many ifs, map it?
   if(key == "STEPS"){
     text = "STEP";
     value = getSteps();
@@ -268,6 +269,15 @@ function _drawData(key, y, c){
 
   } else if(key == "CORET"){
     value = locale.temp(parseInt(E.getTemperature()));
+  } else if(key == "STARDATEFRACTION") {
+    text = "STAR";
+    value = getStardateFraction();
+  } else if(key == "YEARPERCENTAGE") {
+    text = "YEAR";
+    value = getYearPercentage();
+  } else if(key == "YEARPERCENTAGEFRACTION") {
+    text = "%";
+    value = getYearPercentageFraction();
   }
 
   // Print for all datapoints that are not async
@@ -575,6 +585,27 @@ function getSteps() {
   }
 
   return steps;
+}
+
+function getYearPercentage() {
+  currentDate = new Date();
+  return Math.round((((new Date() - new Date('2022-01-01'))/1000/60/60)*100/8760)) + "%";
+}
+
+
+function getYearPercentageFraction() {
+  currentDate = new Date();
+  return (((new Date() - new Date('2022-01-01'))/1000/60/60)*100/8760).toFixed(2);
+}
+
+
+// TODO: Lots of heavy math here, maybe we don't need to update it that often. time % something?
+function getStardateFraction() {
+  currentDate = new Date();
+  //var yearPercentage = Math.round(((new Date() - new Date('2022-01-01'))/1000/60/60)*100/8760);
+  var yearPercentage = (((new Date() - new Date('2022-01-01'))/1000/60/60)*100/8760).toFixed(2);
+  var yearTrailingDigits = currentDate.getFullYear().toString().substr(2);
+  return yearTrailingDigits + "." + yearPercentage; //"22.58";
 }
 
 

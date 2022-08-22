@@ -24,7 +24,7 @@
   }
 
 
-  var dataOptions = ["Steps", "Battery", "VREF", "HRM", "Temp", "Humidity", "Wind", "Altitude", "CoreT"];
+  var dataOptions = ["Steps", "Battery", "VREF", "HRM", "Temp", "Humidity", "Wind", "Altitude", "CoreT", "YearPercentage", "YearPercentageFraction", "StardatePercentage"];
   var speedOptions = ["kph", "mph"];
   var color_options = ['Green','Orange','Cyan','Purple','Red','Blue','Yellow','White'];
   var bg_code = ['#00ff00','#FF9900','#0094FF','#FF00DC','#ff0000','#0000ff','#ffef00','#FFFFFF'];
