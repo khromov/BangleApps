@@ -13,9 +13,10 @@ Bangle.setOptions({ lockTimeout: 0 });
 
 // Sends "key up"
 function sendKeyUpEvent(callback) {
+  logger.write("sendKeyUpEvent() triggered"+"\n");
   try {
       NRF.sendHIDReport([0,0,0,0,0,0,0,0], function() {
-       logger.write("Sent key up event!"+"\n");
+      logger.write("Sent key up event!"+"\n");
       if (callback) {
          callback();
       }
@@ -44,6 +45,7 @@ if (settings.HID=="kb" || settings.HID=="kbmedia") {
         console.log("Sent forward!", data);
         logger.write("Sent forward!"+"\n");
       });
+      sendKeyUpEvent();
     } catch(e) {
       sendKeyUpEvent();
       logger.write(e +"\n");
@@ -56,6 +58,7 @@ if (settings.HID=="kb" || settings.HID=="kbmedia") {
         console.log("Sent backward!", data);
         logger.write("Sent backward!"+"\n");
       });
+      sendKeyUpEvent();
     } catch(e) {
       sendKeyUpEvent();
       logger.write(e +"\n");
