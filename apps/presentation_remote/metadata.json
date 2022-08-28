@@ -1,7 +1,7 @@
 {
     "id": "presentation_remote",
     "name": "Presentation Remote",
-    "version": "1.0",
+    "version": "1.01",
     "description": "An app that lets you control a presentation from your Bangle. Acts as a HID device to send right/left arrow commands.",
     "icon": "app.png",
     "tags": "bluetooth",
