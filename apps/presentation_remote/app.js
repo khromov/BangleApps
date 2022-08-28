@@ -4,13 +4,28 @@ const logger = require("Storage").open("error-log.csv", "a");
 
 var usbHidEnabled = false;
 
-let currentlySendingKey = false;
 
 var forward, backward;
 
 // Power savings stuff
 Bangle.setLocked(false);
 Bangle.setOptions({ lockTimeout: 0 });
+
+// Sends "key up"
+function sendKeyUpEvent(callback) {
+  try {
+      NRF.sendHIDReport([0,0,0,0,0,0,0,0], function() {
+       logger.write("Sent key up event!"+"\n");
+      if (callback) {
+         callback();
+      }
+    });
+  } catch(e) {
+     logger.write("Failed sending keyUp event..."+"\n");
+     // TODO: sendKeyUpEvent() with a number of retries here?
+  }
+
+}
 
 if (settings.HID=="kb" || settings.HID=="kbmedia") {
   usbHidEnabled = true;
@@ -24,35 +39,27 @@ if (settings.HID=="kb" || settings.HID=="kbmedia") {
   // NRF.setConnectionInterval(100);
 
   forward = function (cb) { 
-    if(true) {
-      currentlySendingKey = true;
-      try {
-        kb.tap(kb.KEY.RIGHT, 0, function(data) {
-          currentlySendingKey = false;
-          // console.log("Sent forward!", data);
-          logger.write("Sent forward!"+"\n");
-        });
-      } catch(e) {
-        currentlySendingKey = false;
-        logger.write(e +"\n");
-        console.log("Could not send forward event", e);
-      }
+    try {
+      kb.tap(kb.KEY.RIGHT, 0, function(data) {
+        console.log("Sent forward!", data);
+        logger.write("Sent forward!"+"\n");
+      });
+    } catch(e) {
+      sendKeyUpEvent();
+      logger.write(e +"\n");
+      console.log("Could not send forward event", e);
     }
   };
   backward = function (cb) {
-    if(true) {
-      currentlySendingKey = true;
-      try {
-        kb.tap(kb.KEY.LEFT, 0, function(data) {
-          currentlySendingKey = false;
-          // console.log("Sent backward!", data);
-          logger.write("Sent backward!"+"\n");
-        });
-      } catch(e) {
-        currentlySendingKey = false;
-        logger.write(e +"\n");
-        console.log("Could not send backward event", e);
-      }
+    try {
+      kb.tap(kb.KEY.LEFT, 0, function(data) {
+        console.log("Sent backward!", data);
+        logger.write("Sent backward!"+"\n");
+      });
+    } catch(e) {
+      sendKeyUpEvent();
+      logger.write(e +"\n");
+      console.log("Could not send backward event", e);
     }
  };
 } else {
