@@ -12,6 +12,7 @@ Bangle.setLocked(false);
 Bangle.setOptions({ lockTimeout: 0 });
 
 // Sends "key up"
+/*
 function sendKeyUpEvent(callback) {
   logger.write("sendKeyUpEvent() triggered"+"\n");
   try {
@@ -25,8 +26,8 @@ function sendKeyUpEvent(callback) {
      logger.write("Failed sending keyUp event..."+"\n");
      // TODO: sendKeyUpEvent() with a number of retries here?
   }
-
 }
+*/
 
 if (settings.HID=="kb" || settings.HID=="kbmedia") {
   usbHidEnabled = true;
@@ -45,9 +46,8 @@ if (settings.HID=="kb" || settings.HID=="kbmedia") {
         console.log("Sent forward!", data);
         logger.write("Sent forward!"+"\n");
       });
-      sendKeyUpEvent();
     } catch(e) {
-      sendKeyUpEvent();
+      E.showMessage(e, 'Error');
       logger.write(e +"\n");
       console.log("Could not send forward event", e);
     }
@@ -58,9 +58,8 @@ if (settings.HID=="kb" || settings.HID=="kbmedia") {
         console.log("Sent backward!", data);
         logger.write("Sent backward!"+"\n");
       });
-      sendKeyUpEvent();
     } catch(e) {
-      sendKeyUpEvent();
+      E.showMessage(e, 'Error');
       logger.write(e +"\n");
       console.log("Could not send backward event", e);
     }
