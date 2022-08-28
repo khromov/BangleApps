@@ -7,6 +7,8 @@ var lastx = 0;
 
 var usbHidEnabled = false;
 
+let currentlySendingKey = false;
+
 // Power savings stuff
 Bangle.setLocked(false);
 // Bangle.setLCDTimeout(5);
@@ -46,29 +48,32 @@ if (settings.HID=="kb" || settings.HID=="kbmedia") {
   };
   forward = function (cb) { 
     // sendHid(0x4f, cb);
-    
-    try {
-      kb.tap(kb.KEY.RIGHT, 0);
-      /*
-      kb.tap(kb.KEY.RIGHT, 0, function(data) {
-        console.log("Sent!", data);
-      });
-      */
-    } catch(e) {
-      console.log("Could not send forward event", e);
+    if(!currentlySendingKey) {
+      currentlySendingKey = true;
+      try {
+        kb.tap(kb.KEY.RIGHT, 0, function(data) {
+          currentlySendingKey = false;
+          console.log("Sent!", data);
+        });
+      } catch(e) {
+        currentlySendingKey = false;
+        console.log("Could not send forward event", e);
+      }
     }
   };
   backward = function (cb) {
     //sendHid(0x50, cb);
-    try {
-      kb.tap(kb.KEY.LEFT, 0);
-      /*
-      kb.tap(kb.KEY.LEFT, 0, function(data) {
-        console.log("Sent!", data);
-      });
-      */
-    } catch(e) {
-      console.log("Could not send backward event", e);
+    if(!currentlySendingKey) {
+      currentlySendingKey = true;
+      try {
+        kb.tap(kb.KEY.LEFT, 0, function(data) {
+          currentlySendingKey = false;
+          console.log("Sent!", data);
+        });
+      } catch(e) {
+        currentlySendingKey = false;
+        console.log("Could not send backward event", e);
+      }
     }
  };
 } else {
