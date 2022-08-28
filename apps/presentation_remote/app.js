@@ -22,6 +22,9 @@ if (settings.HID=="kb" || settings.HID=="kbmedia") {
   const kb = require("ble_hid_keyboard");
   NRF.setServices(undefined, { hid : kb.report });
 
+  // http://forum.espruino.com/conversations/325524/
+  NRF.setConnectionInterval(100); // Test to see if it reduces keystroke ghosting
+
   // OLD?
   // https://gist.github.com/MightyPork/6da26e382a7ad91b5496ee55fdc73db2
   sendHid = function (code, cb) {
@@ -45,9 +48,12 @@ if (settings.HID=="kb" || settings.HID=="kbmedia") {
     // sendHid(0x4f, cb);
     
     try {
+      kb.tap(kb.KEY.RIGHT, 0);
+      /*
       kb.tap(kb.KEY.RIGHT, 0, function(data) {
         console.log("Sent!", data);
       });
+      */
     } catch(e) {
       console.log("Could not send forward event", e);
     }
@@ -55,9 +61,12 @@ if (settings.HID=="kb" || settings.HID=="kbmedia") {
   backward = function (cb) {
     //sendHid(0x50, cb);
     try {
+      kb.tap(kb.KEY.LEFT, 0);
+      /*
       kb.tap(kb.KEY.LEFT, 0, function(data) {
         console.log("Sent!", data);
       });
+      */
     } catch(e) {
       console.log("Could not send backward event", e);
     }
