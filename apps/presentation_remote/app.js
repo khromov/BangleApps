@@ -17,17 +17,17 @@ if (settings.HID=="kb" || settings.HID=="kbmedia") {
 
   // https://www.espruino.com/BLE+Keyboard + presentor app
   // https://www.espruino.com/modules/USBKeyboard.js
-  const kb = require("ble_hid_combo");
+  const kb = require("ble_hid_keyboard");
   NRF.setServices(undefined, { hid : kb.report });
 
   // http://forum.espruino.com/conversations/325524/
   // NRF.setConnectionInterval(100);
 
   forward = function (cb) { 
-    if(!currentlySendingKey) {
+    if(true) {
       currentlySendingKey = true;
       try {
-        kb.tapKey(kb.KEY.RIGHT, 0, function(data) {
+        kb.tap(kb.KEY.RIGHT, 0, function(data) {
           currentlySendingKey = false;
           // console.log("Sent forward!", data);
           logger.write("Sent forward!"+"\n");
@@ -40,10 +40,10 @@ if (settings.HID=="kb" || settings.HID=="kbmedia") {
     }
   };
   backward = function (cb) {
-    if(!currentlySendingKey) {
+    if(true) {
       currentlySendingKey = true;
       try {
-        kb.tapKey(kb.KEY.LEFT, 0, function(data) {
+        kb.tap(kb.KEY.LEFT, 0, function(data) {
           currentlySendingKey = false;
           // console.log("Sent backward!", data);
           logger.write("Sent backward!"+"\n");
